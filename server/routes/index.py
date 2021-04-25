@@ -1,9 +1,10 @@
 from server import app
-from flask import render_template
+from flask import render_template, redirect, url_for
 
 @app.route('/')
 def hello_world():
-    return app.send_static_file('index.html')
+    # return app.send_static_file('index.html')
+    return redirect(url_for('explorer'))
 
 @app.errorhandler(404)
 @app.route("/error404")
