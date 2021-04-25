@@ -1,14 +1,15 @@
 from flask import jsonify, request
 from server import app
-# from server.services import tweetService
+from server.services.tweetService import TweetService
+
+service = TweetService()
 
 @app.route("/api/tweet-data", methods=['GET'])
 def get():
     """get a list of tweets"""
     start = request.args.get('start', default=0, type=int)
     end = request.args.get('start', default=50, type=int)
-    # data = tweetService.getCachedTweets(start, end)
-    data = {}
+    data = service.getCachedTweets(start, end)
     return jsonify(data)
 
 @app.route("/api/tweet-data", methods=['POST'])
