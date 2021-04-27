@@ -1,7 +1,7 @@
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import nltk, requests #, pandas as pd
-import time
+import time, re
 
 class TweetService:
 
@@ -106,6 +106,12 @@ class TweetService:
     def isPlasma(self, text):
         return self.isAvailable(text) and 'plasma' in text
 
+    def extract_phone_numbers(self, string):
+        # r = re.compile(r'(\d{6}[-\.\s]??\d{5}|\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})')
+        r = re.compile(r'(\+?\d{2}[-\.\s]??\d{5}[-\.\s]??\d{5}|\d{6}[-\.\s]??\d{5}|\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4})')
+        phone_numbers = r.findall(string)
+        return [re.sub(r'\D', '', number) for number in phone_numbers]
+
     def enrichTweetList(self, tweetList) -> list:
         for index, tweet in enumerate(tweetList):
             cleanedText = self.cleanText(tweet['text'])
@@ -120,6 +126,8 @@ class TweetService:
             tweetList[index]['favipiravir'] = self.isFavipiravir(cleanedText)
             tweetList[index]['toclizumab'] = self.isToclizumab(cleanedText)
             tweetList[index]['plasma'] = self.isPlasma(cleanedText)
+            tweetList[index]['contact'] = self.extract_phone_numbers(tweet['text'])
+            tweetList[index]['source'] = 'twitter'
 
         return tweetList
 

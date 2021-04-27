@@ -22,6 +22,30 @@ paths:
             $ref: "#/definitions/healthResponse"
           examples:
             application/json: { "status": "UP"}
+  /api/tweet-data:
+    get:
+      operationId: get
+      description: Get JSON of parsed Tweets related to Covid-19 medical services across India
+      responses:
+        200:
+          description: "Tweet data response"
+          examples: 
+            application/json: [{"beds":false,"fabiflu":false,"favipiravir":false,"icu":false,"link":"http://twitter.com/raj_fegade/status/1386393235371687943","location":"","oxygen":true,"plasma":false,"remdesivir":false,"state":"","text":"RT @HMOIndia: All manufacturing units may be allowed to maximise their production of liquid oxygen, and make it available to the Government, for use for medical purposes only.","toclizumab":false,"ts":"April 26, 2021 at 12:24AM","username":"@raj_fegade","ventilator":false}]
+  /api/parse-text:
+    post:
+      operationId: post
+      description: Parse random text data to check medical services availability
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: "Parsed JSON response"
+          examples: 
+            application/json: {"beds":false,"fabiflu":false,"favipiravir":false,"icu":false,"link":"http://twitter.com/raj_fegade/status/1386393235371687943","location":"","oxygen":true,"plasma":false,"remdesivir":false,"state":"","text":"RT @HMOIndia: All manufacturing units may be allowed to maximise their production of liquid oxygen, and make it available to the Government, for use for medical purposes only.","toclizumab":false,"ts":"April 26, 2021 at 12:24AM","username":"@raj_fegade","ventilator":false}
+        400:
+          description: "Bad Request"
+          examples:
+            text/plain: "Bad Request"
 
 definitions:
   healthResponse:
